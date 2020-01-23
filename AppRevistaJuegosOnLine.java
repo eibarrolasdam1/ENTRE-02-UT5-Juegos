@@ -21,7 +21,7 @@ public class AppRevistaJuegosOnLine
         revista.puntuar("Wattam", 9);
         revista.toString();
         revista.valoracionMayorQue(8.2);
-        //revista.borrarDeGenero(ROL);
+        revista.borrarDeGenero(Genero.ROL);
         revista.toString();
     }
 

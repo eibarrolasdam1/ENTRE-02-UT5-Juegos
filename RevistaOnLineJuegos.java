@@ -80,10 +80,18 @@ public class RevistaOnLineJuegos
      */
     public String toString() {
         StringBuilder sb = new StringBuilder ("");
+        String aux = "";
         for (int i = 0; i < total; i++) {
-            sb.append(juegos[i].getTitulo()).append("\n").append("Genero: ").append(juegos[i].getGenero()).append(" | ").append("Lanzamiento: ").append(juegos[i].getYear()).append("\n").append("Valoración").append("(").append(juegos[i].getVotos()).append("votos").append("): ").append(juegos[i].getValoracionMedia());
+            sb.append("Puntuando... \n"); 
+            if (existeJuego(juegos[i].getTitulo()) == -1) {
+                sb.append("No existe el juego ").append(juegos[i].getTitulo()).append("\n");
+            } else {
+                sb.append("Después de puntuar, la revista queda ").append("\n").append("Los mejores juegos en nuestra revista ").append(this.nombre.toUpperCase()).append("(").append(juegos.length).append(" juegos").append(")").append("\n \n");
+            }
+            aux = juegos[i].toString();
         }
         String str = String.valueOf(sb);
+        str += aux;
         return str;
     }
 
@@ -127,7 +135,7 @@ public class RevistaOnLineJuegos
                     array[pos] = aux;
                 }
             }
-            
+
         }
         return array;
     }
@@ -137,8 +145,14 @@ public class RevistaOnLineJuegos
      * el nº de juegos borradas
      */
     public int borrarDeGenero(Genero genero) {
-        
-        return 0;
+        int contador = 0;
+        for (int i = total; i >= 0; i--) {
+            if (juegos[i].getGenero().equals(genero)) {
+                System.arraycopy(juegos, total, juegos, total - 1, total - i - 1);
+                contador++;
+            }
+        }
+        return contador;
     }
 
     /**
@@ -161,7 +175,5 @@ public class RevistaOnLineJuegos
         } finally {
             sc.close();
         }
-
     }
-
 }
