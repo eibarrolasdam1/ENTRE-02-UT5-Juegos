@@ -55,7 +55,15 @@ public class RevistaOnLineJuegos
         }
 
         if (!estaCompleta() && existeJuego(juego.getTitulo()) < 0) {
-
+            for (int i = 0; i < total; i++) {
+                if (juegos[i].getTitulo().compareTo(juego.getTitulo().toUpperCase()) >= 0) {
+                    System.arraycopy(juegos, total, juegos, total + 1, total + 1);
+                    total++;
+                } else {
+                    juegos[total] = juego;
+                    total++;
+                }
+            }
         }
     }
 
@@ -67,7 +75,9 @@ public class RevistaOnLineJuegos
     public int existeJuego(String titulo) {
         int existe = -1;
         for (int i = 0; i < total; i++) {
-            existe = juegos[i].getTitulo().compareToIgnoreCase(titulo);
+            if (juegos[i].getTitulo().equals(titulo.toUpperCase())) {
+                existe = i;
+            }
         }
         return existe;
     }
@@ -80,7 +90,6 @@ public class RevistaOnLineJuegos
      */
     public String toString() {
         StringBuilder sb = new StringBuilder ("");
-        String aux = "";
         for (int i = 0; i < total; i++) {
             sb.append("Puntuando... \n"); 
             if (existeJuego(juegos[i].getTitulo()) == -1) {
@@ -88,11 +97,9 @@ public class RevistaOnLineJuegos
             } else {
                 sb.append("Después de puntuar, la revista queda ").append("\n").append("Los mejores juegos en nuestra revista ").append(this.nombre.toUpperCase()).append("(").append(juegos.length).append(" juegos").append(")").append("\n \n");
             }
-            aux = juegos[i].toString();
+            sb.append(juegos[i].toString()).append("\n").append("-------------------------------------------------").append("\n");
         }
-        String str = String.valueOf(sb);
-        str += aux;
-        return str;
+        return sb.toString();
     }
 
     /**
@@ -106,7 +113,7 @@ public class RevistaOnLineJuegos
             if (juegos[i].getTitulo().equalsIgnoreCase(titulo)) {
                 juegos[i].puntuar(puntuacion);
             } else {
-                System.out.println("Eljuego que quieres puntuar no existe, por favor intentalo de nuevo");
+                System.out.println("El juego que quieres puntuar no existe, por favor intentalo de nuevo");
             }
         }
     }
@@ -135,7 +142,6 @@ public class RevistaOnLineJuegos
                     array[pos] = aux;
                 }
             }
-
         }
         return array;
     }
@@ -146,11 +152,12 @@ public class RevistaOnLineJuegos
      */
     public int borrarDeGenero(Genero genero) {
         int contador = 0;
-        for (int i = total; i >= 0; i--) {
+        for (int i = total - 1; i >= 0; i--) {
             if (juegos[i].getGenero().equals(genero)) {
                 System.arraycopy(juegos, total, juegos, total - 1, total - i - 1);
                 contador++;
-            }
+                total--;
+                            }
         }
         return contador;
     }
@@ -169,11 +176,11 @@ public class RevistaOnLineJuegos
                 this.add(juego);
 
             }
-
         } catch (IOException e) {
             System.out.println("Error al leer del fichero");
         } finally {
             sc.close();
+
         }
     }
 }

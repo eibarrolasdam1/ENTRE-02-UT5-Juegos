@@ -15,14 +15,16 @@ public class Juego {
      *  Esta información se encuentra en linea
      */
     public Juego(String linea) {
-        linea.trim();
         String[] array = linea.split(SEPARADOR);
+        for (int i = 0; i < array.length; i++) {
+            array[i] = array[i].trim();
+        }
         this.titulo = array[0];
         titulo.toUpperCase();
-        String aux = array[1].toUpperCase();
-        this.genero = Genero.valueOf(aux);
+        this.genero = Genero.valueOf(array[1].toUpperCase());
         int año = Integer.parseInt(array[2]);
         this.year = año;
+        valoraciones = new int[10];
         for (int i = 0; i < valoraciones.length; i++) {
             int puntos = Integer.parseInt(array[i + 3]);
             valoraciones[i] = puntos;
@@ -85,7 +87,7 @@ public class Juego {
      */
     public void puntuar(int puntuacion) {
         for (int i = 0; i < valoraciones.length; i++) {
-
+            valoraciones[i + puntuacion]++;
         }
     }
 
